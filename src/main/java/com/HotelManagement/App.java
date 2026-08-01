@@ -13,7 +13,14 @@ public class App
 
         System.out.println("1. Login as Manager");
         System.out.println("2. Login as User");
-        int n = sc.nextInt();
+
+        int n = 0;
+        try{
+            n = sc.nextInt();
+        }
+        catch(Exception e){
+            System.out.println("\nEnter valid details!\n");
+        }
 
         switch(n){
             case 1 : menu.manager(sc);
