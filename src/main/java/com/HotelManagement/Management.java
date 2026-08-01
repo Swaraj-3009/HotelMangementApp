@@ -27,11 +27,11 @@ class ManagerManagement{
 }
 
 class BothAccessed{
-   void addUser(){
+   void addUser(String username, String Password){
 
    }
 
-   void removeUser(){
+   void removeUser(String username, String password){
 
    }
 }
