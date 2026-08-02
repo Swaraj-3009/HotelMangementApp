@@ -1,5 +1,10 @@
 package com.HotelManagement;
 
+import java.util.Scanner;
+
+import com.DAO.Impl.UserDaoImpl;
+import com.HotelManagement.model.User;
+
 class ManagerManagement{
    void addEmployee(){
 
@@ -27,12 +32,24 @@ class ManagerManagement{
 }
 
 class BothAccessed{
-   void addUser(String username, String Password){
+   UserDaoImpl userDao = new UserDaoImpl();
+   User user = new User();
 
+   void addUser(String username, String Password, Scanner sc){
+      user.setName(username);
+      user.setPassword(Password);
+      System.out.print("Enter Adhaar no : ");
+      user.setAdhaar(sc.nextLine());
+      System.out.println("Enter Address : ");
+      user.setAddress(sc.nextLine());
+      user.setRoomAlloted(0);
+      user.setBill(0);
+      
+      userDao.addUser(user);
    }
 
    void removeUser(String username, String password){
-
+      
    }
 }
 

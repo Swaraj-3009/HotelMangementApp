@@ -10,7 +10,6 @@ public class App
         Scanner sc = new Scanner(System.in);
         MainMenu menu = new MainMenu();
         Verify verify = new Verify();
-        BothAccessed both = new BothAccessed();
 
         String u,p;
 
@@ -58,7 +57,7 @@ public class App
                                          p = sc.nextLine();
                                          
                                          if(verify.isUserExist(u , p) == 1){
-                                            menu.user(sc,u,p);
+                                            menu.user(sc, u);
                                          }
                                          else{
                                             System.out.println("\nUser not Exist\n");
@@ -71,8 +70,8 @@ public class App
                                          System.out.print("Enter Passowrd : ");
                                          p = sc.nextLine();
 
-                                         both.addUser(u,p);
-                                         menu.user(sc,u,p);
+                                         menu.bothAccessed.addUser(u,p,sc);
+                                         menu.user(sc, u);
                                     break;
 
                                 default : System.out.println("\nPlease Enter Valid Details!\n");

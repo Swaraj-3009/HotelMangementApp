@@ -3,5 +3,5 @@ package com.DAO;
 import com.HotelManagement.model.Manager;
 
 public interface ManagerDAO {
-    Manager getManagerByUsername(String username);
+    Manager getManager(String username, Manager manage) throws Exception;
 }
