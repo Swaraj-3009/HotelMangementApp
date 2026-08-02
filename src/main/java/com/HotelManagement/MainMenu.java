@@ -6,9 +6,9 @@ class MainMenu {
     BothAccessed bothAccessed = new BothAccessed();
 
     public void manager(Scanner sc, Verify verify){
-        ManagerManagement managerManagement = new ManagerManagement();
+        //ManagerManagement managerManagement = new ManagerManagement();
 
-        String u, p;
+        String userUsername, userPassword;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -24,6 +24,7 @@ class MainMenu {
             int n = 0;
             try{
                 n = sc.nextInt();
+                sc.nextLine();
             }
             catch(Exception e){
                 System.out.println("\nEnter valid details!\n");
@@ -38,26 +39,24 @@ class MainMenu {
                 case 2 : 
                     break;
 
-                case 3 : sc.nextLine();
-                        System.out.print("Enter name : ");
-                        u = sc.nextLine();
+                case 3 :System.out.print("Enter name : ");
+                        userUsername = sc.nextLine();
                         System.out.print("Enter Passowrd : ");
-                        p = sc.nextLine();
-                        if(verify.isUserExist(u, p) == 1){
+                        userPassword = sc.nextLine();
+                        if(verify.isUserExist(userUsername, userPassword)){
                             System.out.println("User Already Exist");
                         }
                         else{
-                            bothAccessed.addUser(u, p, sc);
+                            bothAccessed.addUser(userUsername, userPassword, sc);
                         }
                     break;
 
-                case 4 : sc.nextLine();
-                        System.out.print("Enter name : ");
-                        u = sc.nextLine();
+                case 4 :System.out.print("Enter name : ");
+                        userUsername = sc.nextLine();
                         System.out.print("Enter Passowrd : ");
-                        p = sc.nextLine();
-                        if(verify.isUserExist(u, p) == 1){
-                            bothAccessed.removeUser(u, p);
+                        userPassword = sc.nextLine();
+                        if(verify.isUserExist(userUsername, userPassword)){
+                            bothAccessed.removeUser(userUsername, userPassword);
                         }
                         else{
                             System.out.println("User does not exist");
@@ -80,8 +79,8 @@ class MainMenu {
         }
     }
 
-    public void user(Scanner sc, String username){
-        UserManagement userManagement = new UserManagement();
+    public void user(Scanner sc, Verify verify, String username){
+        //UserManagement userManagement = new UserManagement();
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -98,6 +97,7 @@ class MainMenu {
             int n = 0;
             try{
                 n = sc.nextInt();
+                sc.nextLine();
             }
             catch(Exception e){
                 System.out.println("\nEnter valid details!\n");
@@ -127,11 +127,11 @@ class MainMenu {
                 case 7 : 
                     break;
 
-                case 8 :sc.nextLine();
-                        System.out.print("Enter Passowrd : ");
-                        String p = sc.nextLine();
-                        if(p.equals(bothAccessed.user.getPassword())){
-                            bothAccessed.removeUser(username, p);
+                case 8 :System.out.print("Enter Passowrd : ");
+                        String password = sc.nextLine();
+                        if(verify.isUserExist(username, password)){
+                            bothAccessed.removeUser(username, password);
+                            return;
                         }
                         else{
                             System.out.println("Incorrect Password");

@@ -2,6 +2,7 @@ package com.DAO.Impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import com.DAO.UserDAO;
 import com.HotelManagement.config.DatabaseConnection;
@@ -11,15 +12,22 @@ public class UserDaoImpl implements UserDAO{
         
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO user (name, address, adhaar, roomAlloted, bill) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, bill) VALUES (?, ?, ?, ?, ?, ?)";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setString(1, user.getName());
-                ps.setString(2, user.getAddress());
-                ps.setString(3, user.getAdhaar());
-                ps.setInt(4, user.getRoomAlloted());
-                ps.setFloat(5, user.getBill());
+                ps.setString(2, user.getPassword());
+                ps.setString(3, user.getAddress());
+                ps.setString(4, user.getAdhaar());
+                ps.setInt(5, user.getRoomAlloted());
+                ps.setFloat(6, user.getBill());
+
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("User added successfully");
+                }
         }
         catch(Exception e){
             e.printStackTrace();
@@ -27,10 +35,37 @@ public class UserDaoImpl implements UserDAO{
     }
 
     @Override
-    public User getUserById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById'");
+    public User getUserByNameAndPassword(String username, String password) {
+        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setString(1, username);
+                ps.setString(2, password);
+
+                try(ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+
+                        User user = new User();
+
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        user.setAddress(rs.getString("address"));
+                        user.setAdhaar(rs.getString("adhaar"));
+                        user.setRoomAlloted(rs.getInt("roomAlloted"));
+                        user.setBill(rs.getFloat("bill"));
+
+                        return user;
+                    }
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
+        
 
     @Override
     public User getUserByAdhaar(String adhaar) {
@@ -52,17 +87,23 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public void deleteUser(User user) {
-        String sql = "UPDATE user Where adhaar = ?";
+        String sql = "DELETE FROM users WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setString(1, user.getAdhaar());
-                ps.executeUpdate();
-                
-                System.out.println("User removed successfully");
+
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("User removed successfully");
+                }
+                else {
+                    System.out.println("User not found");
+                }
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

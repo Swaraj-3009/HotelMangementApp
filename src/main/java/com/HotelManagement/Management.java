@@ -33,11 +33,11 @@ class ManagerManagement{
 
 class BothAccessed{
    UserDaoImpl userDao = new UserDaoImpl();
-   User user = new User();
 
-   void addUser(String username, String Password, Scanner sc){
+   void addUser(String username, String password, Scanner sc){
+      User user = new User();
       user.setName(username);
-      user.setPassword(Password);
+      user.setPassword(password);
       System.out.print("Enter Adhaar no : ");
       user.setAdhaar(sc.nextLine());
       System.out.println("Enter Address : ");
@@ -49,7 +49,13 @@ class BothAccessed{
    }
 
    void removeUser(String username, String password){
-      
+      User user = userDao.getUserByNameAndPassword(username, password);
+      if(user != null){
+         userDao.deleteUser(user);
+      }
+      else{
+         System.out.println("User not found");
+      }
    }
 }
 

@@ -1,23 +1,17 @@
 package com.HotelManagement;
 
-import com.HotelManagement.model.Manager;
-import com.HotelManagement.model.User;
+import com.DAO.Impl.ManagerDaoImpl;
+import com.DAO.Impl.UserDaoImpl;
 
 class Verify {
-    Manager manage = new Manager();
-    User user = new User();
+    ManagerDaoImpl managerDAO = new ManagerDaoImpl();
+    UserDaoImpl userDAO = new UserDaoImpl();
     
-    int verifyManager(String username, String password){
-        if(username.equalsIgnoreCase(manage.getUsername()) && password.equalsIgnoreCase(manage.getPassword())){
-            return 1;
-        }
-        return 0;
+    boolean verifyManager(String username, String password){
+        return managerDAO.getManager(username, password) != null;
     }
 
-    int isUserExist(String username, String password){
-        if(username.equalsIgnoreCase(user.getName())){
-            return 1;
-        }
-        return 0;
+    boolean isUserExist(String username, String password){
+        return userDAO.getUserByNameAndPassword(username, password) != null;
     }
 }

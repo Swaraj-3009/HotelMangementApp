@@ -23,6 +23,7 @@ public class App
             int n = 0;
             try{
                 n = sc.nextInt();
+                sc.nextLine();
             }
             catch(InputMismatchException e){
                 System.out.println("\nEnter valid details!\n");
@@ -31,13 +32,12 @@ public class App
             }
 
             switch(n){
-                case 1 : sc.nextLine();
-                        System.out.print("Enter username : ");
+                case 1 :System.out.print("Enter username : ");
                         u = sc.nextLine();
                         System.out.print("Enter Password : ");
                         p = sc.nextLine();
 
-                        if(verify.verifyManager(u, p) == 1){
+                        if(verify.verifyManager(u, p)){
                             menu.manager(sc, verify);
                         }
                         else{
@@ -47,31 +47,32 @@ public class App
 
                 case 2 : System.out.println("1. Already have account");
                          System.out.println("2. New user");
+
                          try{
                             int a = sc.nextInt();
+                            sc.nextLine();
+
                             switch(a){
-                                case 1 : sc.nextLine();
-                                         System.out.print("Enter name : ");
+                                case 1 : System.out.print("Enter name : ");
                                          u = sc.nextLine();
                                          System.out.print("Enter Password : ");
                                          p = sc.nextLine();
                                          
-                                         if(verify.isUserExist(u , p) == 1){
-                                            menu.user(sc, u);
+                                         if(verify.isUserExist(u , p)){
+                                            menu.user(sc, verify, u);
                                          }
                                          else{
                                             System.out.println("\nUser not Exist\n");
                                          }
                                     break;
 
-                                case 2 : sc.nextLine();
-                                         System.out.print("Enter name : ");
+                                case 2 : System.out.print("Enter name : ");
                                          u = sc.nextLine();
                                          System.out.print("Enter Passowrd : ");
                                          p = sc.nextLine();
 
                                          menu.bothAccessed.addUser(u,p,sc);
-                                         menu.user(sc, u);
+                                         menu.user(sc, verify, u);
                                     break;
 
                                 default : System.out.println("\nPlease Enter Valid Details!\n");
