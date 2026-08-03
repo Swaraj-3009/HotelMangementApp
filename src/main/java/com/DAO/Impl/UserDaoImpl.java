@@ -3,6 +3,7 @@ package com.DAO.Impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import com.DAO.UserDAO;
 import com.HotelManagement.config.DatabaseConnection;
@@ -69,14 +70,58 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public User getUserByAdhaar(String adhaar) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserByAdhaar'");
+        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setString(1, adhaar);
+
+                try(ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+
+                        User user = new User();
+
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        user.setAddress(rs.getString("address"));
+                        user.setAdhaar(rs.getString("adhaar"));
+                        user.setRoomAlloted(rs.getInt("roomAlloted"));
+                        user.setBill(rs.getFloat("bill"));
+
+                        return user;
+                    }
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public List<User> getAllUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
+        List<User> users = new ArrayList<>();
+
+        String sql = "SELECT * FROM users";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()){
+
+                while(rs.next()){
+                    User user = new User();
+                    user.setName(rs.getString("name"));
+                    user.setAddress(rs.getString("address"));
+                    user.setAdhaar(rs.getString("adhaar"));
+
+                    users.add(user);
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return users;
     }
 
     @Override

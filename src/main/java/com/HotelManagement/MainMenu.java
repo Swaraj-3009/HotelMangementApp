@@ -6,7 +6,7 @@ class MainMenu {
     BothAccessed bothAccessed = new BothAccessed();
 
     public void manager(Scanner sc, Verify verify){
-        //ManagerManagement managerManagement = new ManagerManagement();
+        ManagerManagement managerManagement = new ManagerManagement();
 
         String userUsername, userPassword;
 
@@ -19,7 +19,9 @@ class MainMenu {
             System.out.println("5. Check booked Room");
             System.out.println("6. Check Unbooked Room");
             System.out.println("7. Total Employee");
-            System.out.println("8. Exit");
+            System.out.println("8. Search User By Adhaar");
+            System.out.println("9. Total User");
+            System.out.println("10. Exit");
 
             int n = 0;
             try{
@@ -39,6 +41,7 @@ class MainMenu {
                 case 2 : 
                     break;
 
+                    //add user
                 case 3 :System.out.print("Enter name : ");
                         userUsername = sc.nextLine();
                         System.out.print("Enter Passowrd : ");
@@ -51,6 +54,7 @@ class MainMenu {
                         }
                     break;
 
+                    //remove user
                 case 4 :System.out.print("Enter name : ");
                         userUsername = sc.nextLine();
                         System.out.print("Enter Passowrd : ");
@@ -72,7 +76,23 @@ class MainMenu {
                 case 7 : 
                     break;
 
-                case 8 : return;
+                    //get user by adhaar
+                case 8 : System.out.println("Enter Adhaar : ");
+                         String adhaar = sc.nextLine();
+
+                         if(verify.isUserExistByAdhaar(adhaar)){
+                            managerManagement.getUserByAdhaar(adhaar);
+                        }
+                        else{
+                            System.out.println("User does not exist");
+                        }
+                    break;
+
+                    //total user
+                case 9 : managerManagement.totalUser();
+                    break;
+
+                case 10 : return;
 
                 default : 
             }
@@ -92,7 +112,8 @@ class MainMenu {
             System.out.println("6. Take playzone pass");
             System.out.println("7. Take gym pass");
             System.out.println("8. Delete Account");
-            System.out.println("9. Exit");
+            System.out.println("9. Update Profile");
+            System.out.println("10. Exit");
 
             int n = 0;
             try{
@@ -138,7 +159,10 @@ class MainMenu {
                         }
                     break;
 
-                case 9 : return;
+                case 9 : 
+                    break;
+                
+                case 10 : return;
 
                 default : 
             }

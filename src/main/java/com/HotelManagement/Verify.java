@@ -14,4 +14,8 @@ class Verify {
     boolean isUserExist(String username, String password){
         return userDAO.getUserByNameAndPassword(username, password) != null;
     }
+
+    boolean isUserExistByAdhaar(String adhaar){
+        return userDAO.getUserByAdhaar(adhaar) != null;
+    }
 }
