@@ -106,6 +106,7 @@ class MainMenu {
         UserManagement userManagement = new UserManagement();
 
         String password;
+        int totalRoomToBeBooked = 0;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -132,7 +133,31 @@ class MainMenu {
             }
 
             switch(n){
-                case 1 : System.out.println("Book Room ");
+                case 1 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             System.out.println("Enter total no of room to be booked : ");
+                             try{
+                                 totalRoomToBeBooked = sc.nextInt();
+                                 sc.nextLine();
+                             }
+                             catch(InputMismatchException e){
+                                 e.printStackTrace();
+                                 sc.nextLine();
+                             }
+                                if(verify.isRoomAvailabale(totalRoomToBeBooked)){
+                                    userManagement.bookRoom(user, totalRoomToBeBooked);
+                                }
+                                else{
+                                    System.out.println(totalRoomToBeBooked + "Rooms Not Available");
+                                }
+                             
+                             }
+                         else{
+                             System.out.println("\nIncorrect Password!\n");
+                         }
                     break;
                 
                 case 2 : 

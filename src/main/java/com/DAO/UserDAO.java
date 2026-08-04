@@ -1,7 +1,6 @@
 package com.DAO;
 
 import java.util.List;
-
 import com.HotelManagement.model.User;
 
 public interface UserDAO {
@@ -11,7 +10,6 @@ public interface UserDAO {
     List<User> getAllUsers();
     void updateUserProfile(User user);
     void deleteUser(User user);
-    void updateBill(User user);
-    void updateRoomAllocation(User user);
+    void BookRoom(User user);
 }
 

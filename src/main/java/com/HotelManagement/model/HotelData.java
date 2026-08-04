@@ -1,6 +1,7 @@
 package com.HotelManagement.model;
 
 public class HotelData {
+    public static final String hotelName = "MyHotel";
     public static final int totalRoom = 100;
     public static final int totalPartyHall = 3;
     public static final int totalMeetingHall = 10;

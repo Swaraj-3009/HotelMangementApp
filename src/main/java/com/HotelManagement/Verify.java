@@ -2,12 +2,15 @@ package com.HotelManagement;
 
 import com.DAO.Impl.ManagerDaoImpl;
 import com.DAO.Impl.UserDaoImpl;
+import com.DAO.Impl.HotelDataDaoImpl;
 import com.DAO.UserDAO;
 import com.DAO.ManagerDAO;
+import com.DAO.HotelDataDAO;
 
 class Verify {
     ManagerDAO managerDAO = new ManagerDaoImpl();
     UserDAO userDAO = new UserDaoImpl();
+    HotelDataDAO hotelDAO = new HotelDataDaoImpl();
     
     boolean verifyManager(String username, String password){
         return managerDAO.getManager(username, password) != null;
@@ -21,7 +24,7 @@ class Verify {
         return userDAO.getUserByAdhaar(adhaar) != null;
     }
 
-    //boolean isRoomAvailabale(Room room){
-    //     return false;
-    //}
+    boolean isRoomAvailabale(int totalRoomToBeBooked){
+        return (100 - hotelDAO.getHotelData().getTotalBookedMeetingHall()) >= totalRoomToBeBooked;
+    }
 }

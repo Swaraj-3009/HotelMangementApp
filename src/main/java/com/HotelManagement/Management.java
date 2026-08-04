@@ -83,8 +83,10 @@ class BothAccessed{
 class UserManagement{
    UserDAO userDao = new UserDaoImpl();
 
-    void bookRoom(){
-
+    void bookRoom(User user, int totalRoomToBeBooked){
+      user.setRoomAlloted(totalRoomToBeBooked);
+      user.setBill(user.getBill() + (user.getRoomAlloted() * 1800));
+      userDao.BookRoom(user);
     }
 
     void orderFood(){
