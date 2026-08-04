@@ -1,6 +1,9 @@
 package com.HotelManagement;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import com.HotelManagement.model.User;
 
 class MainMenu {
     BothAccessed bothAccessed = new BothAccessed();
@@ -100,7 +103,9 @@ class MainMenu {
     }
 
     public void user(Scanner sc, Verify verify, String username){
-        //UserManagement userManagement = new UserManagement();
+        UserManagement userManagement = new UserManagement();
+
+        String password;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -149,7 +154,7 @@ class MainMenu {
                     break;
 
                 case 8 :System.out.print("Enter Passowrd : ");
-                        String password = sc.nextLine();
+                        password = sc.nextLine();
                         if(verify.isUserExist(username, password)){
                             bothAccessed.removeUser(username, password);
                             return;
@@ -159,8 +164,48 @@ class MainMenu {
                         }
                     break;
 
-                case 9 : 
-                    break;
+                case 9 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+                         if(verify.isUserExist(username, password)){
+                            User user = verify.userDAO.getUserByNameAndPassword(username, password);
+
+                            while(true){
+                                System.out.println("1. Change name");
+                                System.out.println("2. Change Address");
+                                System.out.println("3. Save");
+                                System.out.println("4. Exit");
+
+                                try{
+                                    n = sc.nextInt();
+                                    sc.nextLine();
+                                }
+                                catch(InputMismatchException e){
+                                    e.printStackTrace();
+                                    sc.nextLine();
+                                }
+
+                                switch(n){
+                                    case 1 : System.out.println("New name : ");
+                                             user.setName(sc.nextLine());
+                                        break;
+
+                                    case 2 : System.out.println("New address : ");
+                                             user.setAddress(sc.nextLine());
+                                        break;
+                                    
+                                    case 3 : userManagement.updateUserProfile(user);
+                                        break;
+                                    
+                                    case 4 : return;
+
+                                    default : System.out.println("Enter valid details!");
+                                }
+                            }
+                         }
+                         else{
+                            System.out.println("Wrong password");
+                            break;
+                         }
                 
                 case 10 : return;
 

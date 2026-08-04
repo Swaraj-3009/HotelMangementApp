@@ -82,6 +82,8 @@ class BothAccessed{
 }
 
 class UserManagement{
+   UserDaoImpl userDao = new UserDaoImpl();
+
     void bookRoom(){
 
     }
@@ -108,5 +110,9 @@ class UserManagement{
 
     void takeGymPass(){
         
+    }
+
+    void updateUserProfile(User user){
+      userDao.updateUserProfile(user);
     }
 }

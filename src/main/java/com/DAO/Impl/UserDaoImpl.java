@@ -125,9 +125,18 @@ public class UserDaoImpl implements UserDAO{
     }
 
     @Override
-    public boolean updateUser(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
+    public boolean updateUserProfile(User user) {
+        String sql = "UPDATE users SET name = ? , address = ? , password = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setString(1, user.getAdhaar());
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
