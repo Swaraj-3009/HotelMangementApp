@@ -3,11 +3,12 @@ package com.HotelManagement;
 import java.util.List;
 import java.util.Scanner;
 
+import com.DAO.UserDAO;
 import com.DAO.Impl.UserDaoImpl;
 import com.HotelManagement.model.User;
 
 class ManagerManagement{
-   UserDaoImpl userDao = new UserDaoImpl();
+   UserDAO userDao = new UserDaoImpl();
    
    void addEmployee(){
 
@@ -49,7 +50,7 @@ class ManagerManagement{
 }
 
 class BothAccessed{
-   UserDaoImpl userDao = new UserDaoImpl();
+   UserDAO userDao = new UserDaoImpl();
 
    void addUser(String username, String password, Scanner sc){
       User user = new User();
@@ -57,12 +58,10 @@ class BothAccessed{
       user.setPassword(password);
 
       System.out.print("Enter Adhaar no : ");
-      String adhaar = sc.nextLine();
-      user.setAdhaar(adhaar);
+      user.setAdhaar(sc.nextLine());
 
       System.out.println("Enter Address : ");
-      String address = sc.nextLine();
-      user.setAddress(address);
+      user.setAddress(sc.nextLine());
 
       user.setRoomAlloted(0);
       user.setBill(0);
@@ -82,7 +81,7 @@ class BothAccessed{
 }
 
 class UserManagement{
-   UserDaoImpl userDao = new UserDaoImpl();
+   UserDAO userDao = new UserDaoImpl();
 
     void bookRoom(){
 

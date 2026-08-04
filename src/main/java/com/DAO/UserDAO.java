@@ -9,7 +9,9 @@ public interface UserDAO {
     User getUserByNameAndPassword(String username, String password);
     User getUserByAdhaar(String adhaar);
     List<User> getAllUsers();
-    boolean updateUser(User user);
+    void updateUserProfile(User user);
     void deleteUser(User user);
+    void updateBill(User user);
+    void updateRoomAllocation(User user);
 }
 

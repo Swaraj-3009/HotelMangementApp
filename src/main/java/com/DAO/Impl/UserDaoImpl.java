@@ -125,18 +125,25 @@ public class UserDaoImpl implements UserDAO{
     }
 
     @Override
-    public boolean updateUserProfile(User user) {
+    public void updateUserProfile(User user) {
         String sql = "UPDATE users SET name = ? , address = ? , password = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setString(1, user.getAdhaar());
 
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("User removed successfully");
+                }
+                else {
+                    System.out.println("User not found");
+                }
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        return false;
     }
 
     @Override
@@ -146,6 +153,52 @@ public class UserDaoImpl implements UserDAO{
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setString(1, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("User removed successfully");
+                }
+                else {
+                    System.out.println("User not found");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateBill(User user) {
+        String sql = "UPDATE users SET bill = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setFloat(1, user.getBill());
+                ps.setString(2, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("User removed successfully");
+                }
+                else {
+                    System.out.println("User not found");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateRoomAllocation(User user) {
+        String sql = "UPDATE users SET bill = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setFloat(1, user.getRoomAlloted());
+                ps.setString(2, user.getAdhaar());
 
                 int rows = ps.executeUpdate();
 

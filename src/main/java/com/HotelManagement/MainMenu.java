@@ -132,7 +132,7 @@ class MainMenu {
             }
 
             switch(n){
-                case 1 : 
+                case 1 : System.out.println("Book Room ");
                     break;
                 
                 case 2 : 
