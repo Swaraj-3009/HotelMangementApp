@@ -10,6 +10,8 @@ public interface UserDAO {
     List<User> getAllUsers();
     void updateUserProfile(User user);
     void deleteUser(User user);
-    void BookRoom(User user);
+    void bookRoom(User user);
+    void organiseParty(User user);
+    void bookMeetingHall(User user);
 }
 

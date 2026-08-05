@@ -107,6 +107,8 @@ class MainMenu {
 
         String password;
         int totalRoomToBeBooked = 0;
+        int totalPartyHallToBeBooked = 0;
+        int totalMeetingHallToBeBooked = 0;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -133,6 +135,7 @@ class MainMenu {
             }
 
             switch(n){
+                    //Book Room
                 case 1 : System.out.println("Enter Password : ");
                          password = sc.nextLine();
 
@@ -162,14 +165,62 @@ class MainMenu {
                 
                 case 2 : 
                     break;
+                    
+                    //Book Party Hall
+                case 3 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
 
-                case 3 : 
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             System.out.println("Enter total no of Party Hall to be booked : ");
+                             try{
+                                 totalPartyHallToBeBooked = sc.nextInt();
+                                 sc.nextLine();
+                             }
+                             catch(InputMismatchException e){
+                                 e.printStackTrace();
+                                 sc.nextLine();
+                             }
+                                if(verify.isPartyHallAvailable(totalPartyHallToBeBooked)){
+                                    userManagement.organiseParty(user, totalPartyHallToBeBooked);
+                                }
+                                else{
+                                    System.out.println(totalPartyHallToBeBooked + "Party Hall Not Available");
+                                }
+                             }
+                         else{
+                             System.out.println("\nIncorrect Password!\n");
+                         }
                     break;
 
                 case 4 : 
                     break;
 
-                case 5 : 
+                    //Book Meeting Hall
+                case 5 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             System.out.println("Enter total no of Meeting Hall to be booked : ");
+                             try{
+                                 totalMeetingHallToBeBooked = sc.nextInt();
+                                 sc.nextLine();
+                             }
+                             catch(InputMismatchException e){
+                                 e.printStackTrace();
+                                 sc.nextLine();
+                             }
+                                if(verify.isMeetingHallAvailable(totalMeetingHallToBeBooked)){
+                                    userManagement.bookMeetingHall(user, totalMeetingHallToBeBooked);
+                                }
+                                else{
+                                    System.out.println(totalMeetingHallToBeBooked + "Meeting Hall Not Available");
+                                }
+                             }
+                         else{
+                             System.out.println("\nIncorrect Password!\n");
+                         }
                     break;
 
                 case 6 : 
@@ -178,6 +229,7 @@ class MainMenu {
                 case 7 : 
                     break;
 
+                    //Delete User
                 case 8 :System.out.print("Enter Passowrd : ");
                         password = sc.nextLine();
                         if(verify.isUserExist(username, password)){
@@ -189,6 +241,7 @@ class MainMenu {
                         }
                     break;
 
+                    //Update User Profile
                 case 9 : System.out.println("Enter Password : ");
                          password = sc.nextLine();
                          if(verify.isUserExist(username, password)){

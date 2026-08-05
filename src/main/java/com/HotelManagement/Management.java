@@ -2,9 +2,11 @@ package com.HotelManagement;
 
 import java.util.List;
 import java.util.Scanner;
-
+import com.DAO.HotelDataDAO;
+import com.DAO.Impl.HotelDataDaoImpl;
 import com.DAO.UserDAO;
 import com.DAO.Impl.UserDaoImpl;
+import com.HotelManagement.model.HotelData;
 import com.HotelManagement.model.User;
 
 class ManagerManagement{
@@ -33,14 +35,19 @@ class ManagerManagement{
    void totalUser(){
       List<User> u = userDao.getAllUsers();
 
-      for(int i = 0; i<= u.size(); i++){
-         System.out.println("| S.no : " + i + " | Name : " + u.get(i).getName() + " | Adhaar : " + u.get(i).getAdhaar() + " | Address : " + u.get(0).getAddress());
+      for(int i = 0; i<= u.size()-1 ; i++){
+         System.out.println("| S.no : " + i + " | Name : " + u.get(i).getName() + " | Adhaar : " + u.get(i).getAdhaar() + " | Address : " + u.get(i).getAddress());
       }
    }
 
    void getUserByAdhaar(String adhaar){
       User u = userDao.getUserByAdhaar(adhaar);
       
+      if(u == null){
+        System.out.println("User not found");
+        return;
+      }
+
       System.out.println("Name : " + u.getName());
       System.out.println("Adhaar : " + u.getAdhaar());
       System.out.println("Address : " + u.getAddress());
@@ -64,6 +71,8 @@ class BothAccessed{
       user.setAddress(sc.nextLine());
 
       user.setRoomAlloted(0);
+      user.setPartyHallAllotedl(0);
+user.setMeetingHallAlloted(0);
       user.setBill(0);
       
       userDao.addUser(user);
@@ -82,27 +91,45 @@ class BothAccessed{
 
 class UserManagement{
    UserDAO userDao = new UserDaoImpl();
+   HotelDataDAO hotelDataDao = new HotelDataDaoImpl();
+   HotelData hotel = hotelDataDao.getHotelData();
 
     void bookRoom(User user, int totalRoomToBeBooked){
-      user.setRoomAlloted(totalRoomToBeBooked);
-      user.setBill(user.getBill() + (user.getRoomAlloted() * 1800));
-      userDao.BookRoom(user);
+      user.setRoomAlloted(user.getRoomAlloted() + totalRoomToBeBooked);
+      user.setBill(user.getBill() + (totalRoomToBeBooked * 5200));
+      userDao.bookRoom(user);
+
+        int totalBookedRooms = hotel.getTotalBookedRoom() + totalRoomToBeBooked;
+        hotel.setTotalBookedRoom(totalBookedRooms);
+        hotelDataDao.updateTotalBookedRoom(hotel);
     }
 
     void orderFood(){
 
     }
 
-    void organiseParty(){
+    void organiseParty(User user, int totalPartyHallToBeBooked){
+      user.setPartyHallAllotedl(user.getPartyHallAllotedl() + totalPartyHallToBeBooked);
+      user.setBill(user.getBill() + (totalPartyHallToBeBooked * 70000));
+      userDao.organiseParty(user);
 
+      int totalBookedPartyHall = hotel.getTotalBookedPartyHall() + totalPartyHallToBeBooked;
+      hotel.setTotalBookedPartyHall(totalBookedPartyHall);
+      hotelDataDao.updateTotalBookedPartyHall(hotel);
     }
 
     void takeSwimmingPass(){
 
     }
 
-    void bookMeetingHall(){
+    void bookMeetingHall(User user, int totalMeetingHallToBeBooked){
+      user.setMeetingHallAlloted(user.getMeetingHallAlloted() + totalMeetingHallToBeBooked);
+      user.setBill(user.getBill() + (totalMeetingHallToBeBooked * 20000));
+      userDao.bookMeetingHall(user);
 
+      int totalBookedMeetingHall = hotel.getTotalBookedMeetingHall() + totalMeetingHallToBeBooked;
+      hotel.setTotalBookedMeetingHall(totalBookedMeetingHall);
+      hotelDataDao.updateTotalBookedMeetingHall(hotel);
     }
 
     void takePlayzonePass(){

@@ -6,6 +6,8 @@ public class User{
     private String address;
     private String adhaar;
     private int roomAlloted;
+    private int partyHallAllotedl;
+    private int meetingHallAlloted;
     private float bill;
 
     //getters
@@ -23,6 +25,12 @@ public class User{
     }
     public int getRoomAlloted() {
         return roomAlloted;
+    }
+    public int getPartyHallAllotedl() {
+        return partyHallAllotedl;
+    }
+    public int getMeetingHallAlloted() {
+        return meetingHallAlloted;
     }
     public float getBill() {
         return bill;
@@ -43,6 +51,12 @@ public class User{
     }
     public void setRoomAlloted(int roomAlloted) {
         this.roomAlloted = roomAlloted;
+    }
+    public void setPartyHallAllotedl(int partyHallAllotedl) {
+        this.partyHallAllotedl = partyHallAllotedl;
+    }
+    public void setMeetingHallAlloted(int meetingHallAlloted) {
+        this.meetingHallAlloted = meetingHallAlloted;
     }
     public void setBill(float bill) {
         this.bill = bill;

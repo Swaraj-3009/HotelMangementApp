@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDAO{
         
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, bill) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, partyHallAlloted, meetingHallAlloted, bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -22,7 +22,9 @@ public class UserDaoImpl implements UserDAO{
                 ps.setString(3, user.getAddress());
                 ps.setString(4, user.getAdhaar());
                 ps.setInt(5, user.getRoomAlloted());
-                ps.setFloat(6, user.getBill());
+                ps.setInt(6, user.getPartyHallAllotedl());
+                ps.setInt(7, user.getMeetingHallAlloted());
+                ps.setFloat(8, user.getBill());
 
                 int rows = ps.executeUpdate();
 
@@ -54,6 +56,8 @@ public class UserDaoImpl implements UserDAO{
                         user.setAddress(rs.getString("address"));
                         user.setAdhaar(rs.getString("adhaar"));
                         user.setRoomAlloted(rs.getInt("roomAlloted"));
+                        user.setPartyHallAllotedl(rs.getInt("partyHallAlloted"));
+                        user.setMeetingHallAlloted(rs.getInt("meetingHallAlloted"));
                         user.setBill(rs.getFloat("bill"));
 
                         return user;
@@ -70,7 +74,7 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public User getUserByAdhaar(String adhaar) {
-        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -86,6 +90,8 @@ public class UserDaoImpl implements UserDAO{
                         user.setAddress(rs.getString("address"));
                         user.setAdhaar(rs.getString("adhaar"));
                         user.setRoomAlloted(rs.getInt("roomAlloted"));
+                        user.setPartyHallAllotedl(rs.getInt("partyHallAlloted"));
+                        user.setMeetingHallAlloted(rs.getInt("meetingHallAlloted"));
                         user.setBill(rs.getFloat("bill"));
 
                         return user;
@@ -130,12 +136,15 @@ public class UserDaoImpl implements UserDAO{
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
-                ps.setString(1, user.getAdhaar());
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getAddress());
+                ps.setString(3, user.getPassword());
+                ps.setString(4, user.getAdhaar());
 
                 int rows = ps.executeUpdate();
 
                 if (rows > 0) {
-                    System.out.println("User removed successfully");
+                    System.out.println("User Profile Updated successfully");
                 }
                 else {
                     System.out.println("User not found");
@@ -169,8 +178,8 @@ public class UserDaoImpl implements UserDAO{
     }
 
     @Override
-    public void BookRoom(User user){
-        String sql = "UPDATE users SET bill = ? , Rooms = ? WHERE adhaar = ?";
+    public void bookRoom(User user){
+        String sql = "UPDATE users SET bill = ? , roomAlloted = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -191,5 +200,52 @@ public class UserDaoImpl implements UserDAO{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void organiseParty(User user) {
+        String sql = "UPDATE users SET bill = ? , partyHallsAlloted = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setFloat(1, user.getBill());
+                ps.setInt(2, user.getPartyHallAllotedl());
+                ps.setString(3, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+                if(rows > 0){
+                    System.out.println("Party Hall Booked");
+                }
+                else{
+                    System.out.println("Try Again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void bookMeetingHall(User user) {
+        String sql = "UPDATE users SET bill = ? , meetingHallsAlloted = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setFloat(1, user.getBill());
+                ps.setInt(2, user.getMeetingHallAlloted());
+                ps.setString(3, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+                if(rows > 0){
+                    System.out.println("Meeting Hall Booked");
+                }
+                else{
+                    System.out.println("Try Again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 }
