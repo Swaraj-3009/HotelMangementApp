@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDAO{
         
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, partyHallAlloted, meetingHallAlloted, bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, partyHallAlloted, meetingHallAlloted, bill, swimmingPass, playzonePass, gymPass) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -25,6 +25,9 @@ public class UserDaoImpl implements UserDAO{
                 ps.setInt(6, user.getPartyHallAllotedl());
                 ps.setInt(7, user.getMeetingHallAlloted());
                 ps.setFloat(8, user.getBill());
+                ps.setBoolean(9, user.getSwimmingPass());
+                ps.setBoolean(10, user.getPlayZonePass());
+                ps.setBoolean(11, user.getGymPass());
 
                 int rows = ps.executeUpdate();
 
@@ -59,6 +62,9 @@ public class UserDaoImpl implements UserDAO{
                         user.setPartyHallAllotedl(rs.getInt("partyHallAlloted"));
                         user.setMeetingHallAlloted(rs.getInt("meetingHallAlloted"));
                         user.setBill(rs.getFloat("bill"));
+                        user.setSwimmingPass(rs.getBoolean("swimmingPass"));
+                        user.setPlayzonePass(rs.getBoolean("playzonePass"));
+                        user.setGymPass(rs.getBoolean("gymPass"));
 
                         return user;
                     }
@@ -93,6 +99,9 @@ public class UserDaoImpl implements UserDAO{
                         user.setPartyHallAllotedl(rs.getInt("partyHallAlloted"));
                         user.setMeetingHallAlloted(rs.getInt("meetingHallAlloted"));
                         user.setBill(rs.getFloat("bill"));
+                        user.setSwimmingPass(rs.getBoolean("swimmingPass"));
+                        user.setPlayzonePass(rs.getBoolean("playzonePass"));
+                        user.setGymPass(rs.getBoolean("gymPass"));
 
                         return user;
                     }
@@ -203,7 +212,7 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public void organiseParty(User user) {
-        String sql = "UPDATE users SET bill = ? , partyHallsAlloted = ? WHERE adhaar = ?";
+        String sql = "UPDATE users SET bill = ? , partyHallAlloted = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -226,7 +235,7 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public void bookMeetingHall(User user) {
-        String sql = "UPDATE users SET bill = ? , meetingHallsAlloted = ? WHERE adhaar = ?";
+        String sql = "UPDATE users SET bill = ? , meetingHallAlloted = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -237,6 +246,72 @@ public class UserDaoImpl implements UserDAO{
                 int rows = ps.executeUpdate();
                 if(rows > 0){
                     System.out.println("Meeting Hall Booked");
+                }
+                else{
+                    System.out.println("Try Again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void takeSwimmingPass(User user) {
+        String sql = "UPDATE users SET swimmingPass = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setBoolean(1, true);
+                ps.setString(2, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+                if(rows > 0){
+                    System.out.println("Congratulations, Now you are Fish");
+                }
+                else{
+                    System.out.println("Try Again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void takePlayzonePass(User user) {
+        String sql = "UPDATE users SET playzonePass = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setBoolean(1, true);
+                ps.setString(2, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+                if(rows > 0){
+                    System.out.println("Congratulations, Now you are Sportsman");
+                }
+                else{
+                    System.out.println("Try Again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void takeGymPass(User user) {
+        String sql = "UPDATE users SET gymPass = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setBoolean(1, true);
+                ps.setString(2, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+                if(rows > 0){
+                    System.out.println("Congratulations, Now you are Athelete");
                 }
                 else{
                     System.out.println("Try Again");

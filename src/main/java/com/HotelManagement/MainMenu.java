@@ -193,7 +193,14 @@ class MainMenu {
                          }
                     break;
 
-                case 4 : 
+                    //Take Swimming Pass
+                case 4 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             userManagement.takeSwimmingPass(user);
+                         }
                     break;
 
                     //Book Meeting Hall
@@ -223,10 +230,24 @@ class MainMenu {
                          }
                     break;
 
-                case 6 : 
+                    //Take PlayZone Pass
+                case 6 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             userManagement.takePlayzonePass(user);
+                         }
                     break;
 
-                case 7 : 
+                    //Take Gym Pass
+                case 7 : System.out.println("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                             userManagement.takeGymPass(user);
+                         }
                     break;
 
                     //Delete User

@@ -72,8 +72,11 @@ class BothAccessed{
 
       user.setRoomAlloted(0);
       user.setPartyHallAllotedl(0);
-user.setMeetingHallAlloted(0);
+      user.setMeetingHallAlloted(0);
       user.setBill(0);
+      user.setSwimmingPass(false);
+      user.setPlayzonePass(false);
+      user.setGymPass(false);
       
       userDao.addUser(user);
    }
@@ -118,8 +121,9 @@ class UserManagement{
       hotelDataDao.updateTotalBookedPartyHall(hotel);
     }
 
-    void takeSwimmingPass(){
-
+    void takeSwimmingPass(User user){
+      user.setBill(user.getBill() + 1000);
+      userDao.takeSwimmingPass(user);
     }
 
     void bookMeetingHall(User user, int totalMeetingHallToBeBooked){
@@ -132,12 +136,14 @@ class UserManagement{
       hotelDataDao.updateTotalBookedMeetingHall(hotel);
     }
 
-    void takePlayzonePass(){
-
+    void takePlayzonePass(User user){
+      user.setBill(user.getBill() + 500);
+      userDao.takePlayzonePass(user);
     }
 
-    void takeGymPass(){
-        
+    void takeGymPass(User user){
+      user.setBill(user.getBill() + 500);
+      userDao.takeGymPass(user);
     }
 
     void updateUserProfile(User user){

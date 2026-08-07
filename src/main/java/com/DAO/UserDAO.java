@@ -13,5 +13,8 @@ public interface UserDAO {
     void bookRoom(User user);
     void organiseParty(User user);
     void bookMeetingHall(User user);
+    void takeSwimmingPass(User user);
+    void takePlayzonePass(User user);
+    void takeGymPass(User user);
 }
 

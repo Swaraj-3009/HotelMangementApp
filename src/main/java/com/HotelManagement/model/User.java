@@ -9,6 +9,9 @@ public class User{
     private int partyHallAllotedl;
     private int meetingHallAlloted;
     private float bill;
+    private boolean swimmingPass;
+    private boolean playzonePass;
+    private boolean gymPass;
 
     //getters
     public String getName() {
@@ -35,6 +38,15 @@ public class User{
     public float getBill() {
         return bill;
     }
+    public boolean getSwimmingPass(){
+        return swimmingPass;
+    }
+    public boolean getPlayZonePass(){
+        return playzonePass;
+    }
+    public boolean getGymPass(){
+        return gymPass;
+    }
 
     //setters
     public void setName(String name) {
@@ -60,5 +72,14 @@ public class User{
     }
     public void setBill(float bill) {
         this.bill = bill;
+    }
+    public void setSwimmingPass(boolean swimmingPass) {
+        this.swimmingPass = swimmingPass;
+    }
+    public void setPlayzonePass(boolean playzonePass) {
+        this.playzonePass = playzonePass;
+    }
+    public void setGymPass(boolean gymPass) {
+        this.gymPass = gymPass;
     }
 }
