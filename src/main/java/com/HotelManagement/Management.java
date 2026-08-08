@@ -11,6 +11,8 @@ import com.HotelManagement.model.User;
 
 class ManagerManagement{
    UserDAO userDao = new UserDaoImpl();
+   HotelDataDAO hotelDataDao = new HotelDataDaoImpl();
+   HotelData hotel = hotelDataDao.getHotelData();
    
    void addEmployee(){
 
@@ -21,11 +23,27 @@ class ManagerManagement{
    }
 
    void checkBookedRoom(){
-
+      System.out.println(hotel.getTotalBookedRoom());
    }
 
    void checkUnbookedRoom(){
+      System.out.println(HotelData.totalRoom - hotel.getTotalBookedRoom());
+   }
 
+   void checkBookedPartyHall(){
+      System.out.println(hotel.getTotalBookedPartyHall());
+   }
+   
+   void checkUnbookedPartyHall(){
+      System.out.println(HotelData.totalPartyHall - hotel.getTotalBookedPartyHall());
+   }
+
+   void checkBookedMeetingHall(){
+      System.out.println(hotel.getTotalBookedMeetingHall());
+   }
+
+   void checkUnbookedMeetingHall(){
+      System.out.println(HotelData.totalMeetingHall - hotel.getTotalBookedMeetingHall());
    }
 
    void totalEmployee(){

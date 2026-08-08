@@ -70,10 +70,10 @@ class MainMenu {
                         }
                     break;
 
-                case 5 : 
+                case 5 : managerManagement.checkBookedRoom();
                     break;
 
-                case 6 : 
+                case 6 : managerManagement.checkUnbookedRoom();
                     break;
 
                 case 7 : 
