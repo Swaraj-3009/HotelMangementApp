@@ -1,5 +1,6 @@
 package com.HotelManagement;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import com.DAO.HotelDataDAO;
@@ -89,12 +90,18 @@ class BothAccessed{
       user.setAddress(sc.nextLine());
 
       user.setRoomAlloted(0);
-      user.setPartyHallAllotedl(0);
+      user.setPartyHallAlloted(0);
       user.setMeetingHallAlloted(0);
       user.setBill(0);
       user.setSwimmingPass(false);
       user.setPlayzonePass(false);
       user.setGymPass(false);
+      user.setRoomBookingStart(null);
+      user.setPartyHallBookingStart(null);
+      user.setMeetingHallBookingStart(null);
+      user.setRoomBookingEnd(null);
+      user.setPartyHallBookingEnd(null);
+      user.setMeetingHallBookingEnd(null);
       
       userDao.addUser(user);
    }
@@ -115,23 +122,27 @@ class UserManagement{
    HotelDataDAO hotelDataDao = new HotelDataDaoImpl();
    HotelData hotel = hotelDataDao.getHotelData();
 
-    void bookRoom(User user, int totalRoomToBeBooked){
+    void bookRoom(User user, int totalRoomToBeBooked, int totalNoOfHours){
+      user.setRoomBookingStart(LocalDateTime.now());
+      user.setRoomBookingEnd(LocalDateTime.now().plusHours(totalNoOfHours));
       user.setRoomAlloted(user.getRoomAlloted() + totalRoomToBeBooked);
-      user.setBill(user.getBill() + (totalRoomToBeBooked * 5200));
+      user.setBill(user.getBill() + (totalRoomToBeBooked * totalNoOfHours * 225));
       userDao.bookRoom(user);
 
-        int totalBookedRooms = hotel.getTotalBookedRoom() + totalRoomToBeBooked;
-        hotel.setTotalBookedRoom(totalBookedRooms);
-        hotelDataDao.updateTotalBookedRoom(hotel);
+      int totalBookedRooms = hotel.getTotalBookedRoom() + totalRoomToBeBooked;
+      hotel.setTotalBookedRoom(totalBookedRooms);
+      hotelDataDao.updateTotalBookedRoom(hotel);
     }
 
     void orderFood(){
 
     }
 
-    void organiseParty(User user, int totalPartyHallToBeBooked){
-      user.setPartyHallAllotedl(user.getPartyHallAllotedl() + totalPartyHallToBeBooked);
-      user.setBill(user.getBill() + (totalPartyHallToBeBooked * 70000));
+    void organiseParty(User user, int totalPartyHallToBeBooked, int totalNoOfHours){
+      user.setPartyHallBookingStart(LocalDateTime.now());
+      user.setPartyHallBookingEnd(LocalDateTime.now().plusHours(totalNoOfHours));
+      user.setPartyHallAlloted(user.getPartyHallAlloted() + totalPartyHallToBeBooked);
+      user.setBill(user.getBill() + (totalPartyHallToBeBooked * totalNoOfHours * 3000));
       userDao.organiseParty(user);
 
       int totalBookedPartyHall = hotel.getTotalBookedPartyHall() + totalPartyHallToBeBooked;
@@ -144,9 +155,11 @@ class UserManagement{
       userDao.takeSwimmingPass(user);
     }
 
-    void bookMeetingHall(User user, int totalMeetingHallToBeBooked){
+    void bookMeetingHall(User user, int totalMeetingHallToBeBooked, int totalNoOfHours){
+      user.setMeetingHallBookingStart(LocalDateTime.now());
+      user.setMeetingHallBookingEnd(LocalDateTime.now().plusHours(totalNoOfHours));
       user.setMeetingHallAlloted(user.getMeetingHallAlloted() + totalMeetingHallToBeBooked);
-      user.setBill(user.getBill() + (totalMeetingHallToBeBooked * 20000));
+      user.setBill(user.getBill() + (totalMeetingHallToBeBooked * totalNoOfHours * 1000));
       userDao.bookMeetingHall(user);
 
       int totalBookedMeetingHall = hotel.getTotalBookedMeetingHall() + totalMeetingHallToBeBooked;

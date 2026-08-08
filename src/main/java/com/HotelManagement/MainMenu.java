@@ -2,7 +2,6 @@ package com.HotelManagement;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import com.HotelManagement.model.User;
 
 class MainMenu {
@@ -109,6 +108,7 @@ class MainMenu {
         int totalRoomToBeBooked = 0;
         int totalPartyHallToBeBooked = 0;
         int totalMeetingHallToBeBooked = 0;
+        int totalNoOfHours = 0;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -139,6 +139,11 @@ class MainMenu {
                 case 1 : System.out.println("Enter Password : ");
                          password = sc.nextLine();
 
+                         if(verify.userDAO.getUserByNameAndPassword(username, password).getRoomAlloted()>0){
+                            System.out.println("You Already booked Room Please Select Different User");
+                            return;
+                         }
+
                          if(verify.isUserExist(username, password)){
                              User user = verify.userDAO.getUserByNameAndPassword(username, password);
                              System.out.println("Enter total no of room to be booked : ");
@@ -151,7 +156,15 @@ class MainMenu {
                                  sc.nextLine();
                              }
                                 if(verify.isRoomAvailabale(totalRoomToBeBooked)){
-                                    userManagement.bookRoom(user, totalRoomToBeBooked);
+                                    try{
+                                        totalNoOfHours = sc.nextInt();
+                                        sc.nextLine();
+                                    }
+                                    catch(Exception e){
+                                        e.printStackTrace();
+                                        sc.nextLine();
+                                    }
+                                    userManagement.bookRoom(user, totalRoomToBeBooked, totalNoOfHours);
                                 }
                                 else{
                                     System.out.println(totalRoomToBeBooked + "Rooms Not Available");
@@ -170,6 +183,11 @@ class MainMenu {
                 case 3 : System.out.println("Enter Password : ");
                          password = sc.nextLine();
 
+                         if(verify.userDAO.getUserByNameAndPassword(username, password).getPartyHallAlloted()>0){
+                            System.out.println("You Already booked Party Hall Please Select Different User");
+                            return;
+                         }
+
                          if(verify.isUserExist(username, password)){
                              User user = verify.userDAO.getUserByNameAndPassword(username, password);
                              System.out.println("Enter total no of Party Hall to be booked : ");
@@ -182,7 +200,13 @@ class MainMenu {
                                  sc.nextLine();
                              }
                                 if(verify.isPartyHallAvailable(totalPartyHallToBeBooked)){
-                                    userManagement.organiseParty(user, totalPartyHallToBeBooked);
+                                    try{
+                                        totalNoOfHours = sc.nextInt();
+                                    }
+                                    catch(Exception e){
+                                        e.printStackTrace();
+                                    }
+                                    userManagement.organiseParty(user, totalPartyHallToBeBooked, totalNoOfHours);
                                 }
                                 else{
                                     System.out.println(totalPartyHallToBeBooked + "Party Hall Not Available");
@@ -207,6 +231,11 @@ class MainMenu {
                 case 5 : System.out.println("Enter Password : ");
                          password = sc.nextLine();
 
+                         if(verify.userDAO.getUserByNameAndPassword(username, password).getMeetingHallAlloted()>0){
+                            System.out.println("You Already booked Meeting Hall Please Select Different User");
+                            return;
+                         }
+
                          if(verify.isUserExist(username, password)){
                              User user = verify.userDAO.getUserByNameAndPassword(username, password);
                              System.out.println("Enter total no of Meeting Hall to be booked : ");
@@ -219,7 +248,13 @@ class MainMenu {
                                  sc.nextLine();
                              }
                                 if(verify.isMeetingHallAvailable(totalMeetingHallToBeBooked)){
-                                    userManagement.bookMeetingHall(user, totalMeetingHallToBeBooked);
+                                    try{
+                                        totalNoOfHours = sc.nextInt();
+                                    }
+                                    catch(Exception e){
+                                        e.printStackTrace();
+                                    }
+                                    userManagement.bookMeetingHall(user, totalMeetingHallToBeBooked, totalNoOfHours);
                                 }
                                 else{
                                     System.out.println(totalMeetingHallToBeBooked + "Meeting Hall Not Available");

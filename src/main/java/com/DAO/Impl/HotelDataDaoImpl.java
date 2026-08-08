@@ -73,5 +73,4 @@ public class HotelDataDaoImpl implements HotelDataDAO{
         }
         return null;
     }
-    
 }

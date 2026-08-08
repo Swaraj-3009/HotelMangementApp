@@ -2,11 +2,14 @@ package com.HotelManagement;
 
 import java.util.*;
 
+import com.Schedulor.BookingExpirationSchedulor;
+
 //login as Manager or User
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+    public static void main( String[] args ){
+        BookingExpirationSchedulor schedulor = new BookingExpirationSchedulor();
+        schedulor.start();
+
         Scanner sc = new Scanner(System.in);
         MainMenu menu = new MainMenu();
         Verify verify = new Verify();
