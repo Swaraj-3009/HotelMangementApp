@@ -2,13 +2,13 @@ package com.HotelManagement;
 
 import java.util.*;
 
-import com.Schedulor.BookingExpirationSchedulor;
+import com.Scheduler.BookingExpirationScheduler;
 
 //login as Manager or User
 public class App {
     public static void main( String[] args ){
-        BookingExpirationSchedulor schedulor = new BookingExpirationSchedulor();
-        schedulor.start();
+        BookingExpirationScheduler scheduler = new BookingExpirationScheduler();
+        scheduler.start();
 
         Scanner sc = new Scanner(System.in);
         MainMenu menu = new MainMenu();
@@ -52,6 +52,7 @@ public class App {
                          System.out.println("2. New user");
 
                          try{
+                            System.out.print("Enter Choice : ");
                             int a = sc.nextInt();
                             sc.nextLine();
 

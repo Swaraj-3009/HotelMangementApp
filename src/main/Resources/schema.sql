@@ -38,6 +38,7 @@ CREATE TABLE employee(
 );
 
 CREATE TABLE hotelData(
+    id INT PRIMARY KEY,
     totalBookedRoom INT,
     totalBookedPartyHall INT,
     totalBookedMeetingHall INT

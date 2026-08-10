@@ -3,24 +3,49 @@ package com.HotelManagement;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+
+import com.DAO.EmployeeDAO;
 import com.DAO.HotelDataDAO;
+import com.DAO.Impl.EmployeeDaoImpl;
 import com.DAO.Impl.HotelDataDaoImpl;
 import com.DAO.UserDAO;
 import com.DAO.Impl.UserDaoImpl;
+import com.HotelManagement.model.Employee;
 import com.HotelManagement.model.HotelData;
 import com.HotelManagement.model.User;
 
 class ManagerManagement{
    UserDAO userDao = new UserDaoImpl();
+   EmployeeDAO employeeDao = new EmployeeDaoImpl();
    HotelDataDAO hotelDataDao = new HotelDataDaoImpl();
    HotelData hotel = hotelDataDao.getHotelData();
    
-   void addEmployee(){
+   void addEmployee(String adhaar, Scanner sc){
+      Employee employee = new Employee();
+      
+       System.out.print("Enter name : ");
+       String name = sc.nextLine();
+       System.out.print("Enter Passowrd : ");
+       String Password = sc.nextLine();
+       System.out.println("Enter Address");
+       String address = sc.nextLine();
+       System.out.println("Enter Designation : ");
+       String designation = sc.nextLine();
+       System.out.println("Enter Salary : ");
+       Float salary = sc.nextFloat();
 
+      employee.setName(name);
+      employee.setPassword(Password);
+      employee.setAdhaar(adhaar);
+      employee.setAddress(address);
+      employee.setDesignation(designation);
+      employee.setSalary(salary);
+
+      employeeDao.addEmployee(employee);
    }
 
-   void removeEmployee(){
-
+   void removeEmployee(String adhaar){
+      employeeDao.removeEmployee(adhaar);
    }
 
    void checkBookedRoom(){
@@ -48,7 +73,7 @@ class ManagerManagement{
    }
 
    void totalEmployee(){
-
+      employeeDao.getListOfEmployee();
    }
 
    void totalUser(){
@@ -134,8 +159,9 @@ class UserManagement{
       hotelDataDao.updateTotalBookedRoom(hotel);
     }
 
-    void orderFood(){
-
+    void orderFood(User user){
+      user.setBill(user.getBill() + 500);
+      System.out.println("Food ordered");
     }
 
     void organiseParty(User user, int totalPartyHallToBeBooked, int totalNoOfHours){

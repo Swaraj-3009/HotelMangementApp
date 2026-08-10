@@ -11,6 +11,7 @@ class MainMenu {
         ManagerManagement managerManagement = new ManagerManagement();
 
         String userUsername, userPassword;
+        String adhaar;
 
         while(true){
             System.out.println("\nMain Menu\n");
@@ -27,6 +28,7 @@ class MainMenu {
 
             int n = 0;
             try{
+                System.out.print("Enter Choice : ");
                 n = sc.nextInt();
                 sc.nextLine();
             }
@@ -37,10 +39,21 @@ class MainMenu {
             }
 
             switch(n){
-                case 1 : 
+                    //add Employee
+                case 1 : System.out.println("Enter adhaar : ");
+                         adhaar = sc.nextLine();
+                         if(verify.isEmployeeExist(adhaar)){
+                            System.out.println("User Already Exist");
+                         }
+                         else{
+                            managerManagement.addEmployee(adhaar, sc);
+                         }
                     break;
                 
-                case 2 : 
+                    //remove Emoployee
+                case 2 : System.out.println("Enter adhaar : ");
+                         adhaar = sc.nextLine();
+                         managerManagement.removeEmployee(adhaar);
                     break;
 
                     //add user
@@ -69,18 +82,21 @@ class MainMenu {
                         }
                     break;
 
+                    //Checked Booked Room
                 case 5 : managerManagement.checkBookedRoom();
                     break;
 
+                    //Checked Unbooked Room
                 case 6 : managerManagement.checkUnbookedRoom();
                     break;
 
-                case 7 : 
+                    //Total Employee
+                case 7 : managerManagement.totalEmployee();
                     break;
 
                     //get user by adhaar
-                case 8 : System.out.println("Enter Adhaar : ");
-                         String adhaar = sc.nextLine();
+                case 8 : System.out.print("Enter Adhaar : ");
+                         adhaar = sc.nextLine();
 
                          if(verify.isUserExistByAdhaar(adhaar)){
                             managerManagement.getUserByAdhaar(adhaar);
@@ -125,6 +141,7 @@ class MainMenu {
 
             int n = 0;
             try{
+                System.out.print("Enter Choice : ");
                 n = sc.nextInt();
                 sc.nextLine();
             }
@@ -136,7 +153,7 @@ class MainMenu {
 
             switch(n){
                     //Book Room
-                case 1 : System.out.println("Enter Password : ");
+                case 1 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.userDAO.getUserByNameAndPassword(username, password).getRoomAlloted()>0){
@@ -146,7 +163,7 @@ class MainMenu {
 
                          if(verify.isUserExist(username, password)){
                              User user = verify.userDAO.getUserByNameAndPassword(username, password);
-                             System.out.println("Enter total no of room to be booked : ");
+                             System.out.print("Enter total no of room to be booked : ");
                              try{
                                  totalRoomToBeBooked = sc.nextInt();
                                  sc.nextLine();
@@ -176,11 +193,21 @@ class MainMenu {
                          }
                     break;
                 
-                case 2 : 
+                    //Order Food
+                case 2 : System.out.print("Enter Password : ");
+                         password = sc.nextLine();
+
+                         if(verify.isUserExist(username, password)){
+                            User user = verify.userDAO.getUserByNameAndPassword(username, password);
+                            userManagement.orderFood(user);
+                         }
+                         else{
+                            System.out.println("\nIncorrect Password!\n");
+                         }
                     break;
                     
                     //Book Party Hall
-                case 3 : System.out.println("Enter Password : ");
+                case 3 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.userDAO.getUserByNameAndPassword(username, password).getPartyHallAlloted()>0){
@@ -218,7 +245,7 @@ class MainMenu {
                     break;
 
                     //Take Swimming Pass
-                case 4 : System.out.println("Enter Password : ");
+                case 4 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.isUserExist(username, password)){
@@ -228,7 +255,7 @@ class MainMenu {
                     break;
 
                     //Book Meeting Hall
-                case 5 : System.out.println("Enter Password : ");
+                case 5 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.userDAO.getUserByNameAndPassword(username, password).getMeetingHallAlloted()>0){
@@ -238,7 +265,7 @@ class MainMenu {
 
                          if(verify.isUserExist(username, password)){
                              User user = verify.userDAO.getUserByNameAndPassword(username, password);
-                             System.out.println("Enter total no of Meeting Hall to be booked : ");
+                             System.out.print("Enter total no of Meeting Hall to be booked : ");
                              try{
                                  totalMeetingHallToBeBooked = sc.nextInt();
                                  sc.nextLine();
@@ -266,7 +293,7 @@ class MainMenu {
                     break;
 
                     //Take PlayZone Pass
-                case 6 : System.out.println("Enter Password : ");
+                case 6 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.isUserExist(username, password)){
@@ -276,7 +303,7 @@ class MainMenu {
                     break;
 
                     //Take Gym Pass
-                case 7 : System.out.println("Enter Password : ");
+                case 7 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
                          if(verify.isUserExist(username, password)){
@@ -298,7 +325,7 @@ class MainMenu {
                     break;
 
                     //Update User Profile
-                case 9 : System.out.println("Enter Password : ");
+                case 9 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
                          if(verify.isUserExist(username, password)){
                             User user = verify.userDAO.getUserByNameAndPassword(username, password);
@@ -310,6 +337,7 @@ class MainMenu {
                                 System.out.println("4. Exit");
 
                                 try{
+                                    System.out.print("Enter Choice : ");
                                     n = sc.nextInt();
                                     sc.nextLine();
                                 }
@@ -319,11 +347,11 @@ class MainMenu {
                                 }
 
                                 switch(n){
-                                    case 1 : System.out.println("New name : ");
+                                    case 1 : System.out.print("New name : ");
                                              user.setName(sc.nextLine());
                                         break;
 
-                                    case 2 : System.out.println("New address : ");
+                                    case 2 : System.out.print("New address : ");
                                              user.setAddress(sc.nextLine());
                                         break;
                                     
