@@ -161,6 +161,7 @@ class UserManagement{
 
     void orderFood(User user){
       user.setBill(user.getBill() + 500);
+      userDao.orderfood(user);
       System.out.println("Food ordered");
     }
 

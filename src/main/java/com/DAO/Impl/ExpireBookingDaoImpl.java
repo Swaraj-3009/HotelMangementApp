@@ -67,9 +67,9 @@ public class ExpireBookingDaoImpl implements ExpireBookingDAO{
             ResultSet rs = ps1.executeQuery()){
                 while(rs.next()){
                     String adhaar = rs.getString("adhaar");
-                    int partyHalls = rs.getInt("roomAlloted");
+                    int partyHalls = rs.getInt("partyHallAlloted");
                     expiredPartyHalls += partyHalls;
-                    System.out.println("Booking expired for: " + adhaar + " | Rooms released: " + partyHalls);
+                    System.out.println("Booking expired for: " + adhaar + " | Party halls released: " + partyHalls);
                 }
 
                 ps2.setInt(1, 0);
@@ -86,7 +86,7 @@ public class ExpireBookingDaoImpl implements ExpireBookingDAO{
         }
 
         if(expiredPartyHalls > 0){
-            String sql = "UPDATE hotel SET TotalBookedPartyHalls = TotalBookedPartyHalls - ? WHERE id = 1";
+            String sql = "UPDATE hotel SET TotalBookedPartyHall = TotalBookedPartyHall - ? WHERE id = 1";
 
             try(Connection con = DatabaseConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql)) {
@@ -114,7 +114,7 @@ public class ExpireBookingDaoImpl implements ExpireBookingDAO{
             ResultSet rs = ps1.executeQuery()){
                 while(rs.next()){
                     String adhaar = rs.getString("adhaar");
-                    int meetingHalls = rs.getInt("roomAlloted");
+                    int meetingHalls = rs.getInt("meetingHallAlloted");
                     expiredMeetingHalls += meetingHalls;
                     System.out.println("Booking expired for: " + adhaar + " | meetingHalls released: " + meetingHalls);
                 }

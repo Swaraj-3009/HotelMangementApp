@@ -14,7 +14,7 @@ public class UserDaoImpl implements UserDAO{
         
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, roomBookingStart, roomBookingEnd, partyHallAlloted, partyHallBookingStart, partyHallBookingEnd, meetingHallAlloted, partyHallBookingStart, partyHallBookingEnd, bill, swimmingPass, playzonePass, gymPass) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, password, address, adhaar, roomAlloted, roomBookingStart, roomBookingEnd, partyHallAlloted, partyHallBookingStart, partyHallBookingEnd, meetingHallAlloted, meetingHallBookingStart, meetingHallBookingEnd, bill, swimmingPass, playzonePass, gymPass) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
@@ -23,18 +23,18 @@ public class UserDaoImpl implements UserDAO{
                 ps.setString(3, user.getAddress());
                 ps.setString(4, user.getAdhaar());
                 ps.setInt(5, user.getRoomAlloted());
-                ps.setTimestamp(6, Timestamp.valueOf(user.getRoomBookingStart()));
-                ps.setTimestamp(7, Timestamp.valueOf(user.getRoomBookingEnd()));
+                ps.setTimestamp(6, toTimestamp(user.getRoomBookingStart()));
+                ps.setTimestamp(7, toTimestamp(user.getRoomBookingEnd()));
                 ps.setInt(8, user.getPartyHallAlloted());
-                ps.setTimestamp(9, Timestamp.valueOf(user.getPartyHallBookingStart()));
-                ps.setTimestamp(10, Timestamp.valueOf(user.getPartyHallBookingEnd()));
+                ps.setTimestamp(9, toTimestamp(user.getPartyHallBookingStart()));
+                ps.setTimestamp(10, toTimestamp(user.getPartyHallBookingEnd()));
                 ps.setInt(11, user.getMeetingHallAlloted());
-                ps.setTimestamp(12, Timestamp.valueOf(user.getMeetingHallBookingStart()));
-                ps.setTimestamp(13, Timestamp.valueOf(user.getMeetingHallBookingEnd()));
-                ps.setFloat(8, user.getBill());
-                ps.setBoolean(9, user.getSwimmingPass());
-                ps.setBoolean(10, user.getPlayZonePass());
-                ps.setBoolean(11, user.getGymPass());
+                ps.setTimestamp(12, toTimestamp(user.getMeetingHallBookingStart()));
+                ps.setTimestamp(13, toTimestamp(user.getMeetingHallBookingEnd()));
+                ps.setFloat(14, user.getBill());
+                ps.setBoolean(15, user.getSwimmingPass());
+                ps.setBoolean(16, user.getPlayZonePass());
+                ps.setBoolean(17, user.getGymPass());
 
                 int rows = ps.executeUpdate();
 
@@ -55,10 +55,8 @@ public class UserDaoImpl implements UserDAO{
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setString(1, username);
                 ps.setString(2, password);
-
                 try(ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-
                         User user = new User();
 
                         user.setName(rs.getString("name"));
@@ -82,6 +80,10 @@ public class UserDaoImpl implements UserDAO{
         }
 
         return null;
+    }
+
+    private Timestamp toTimestamp(java.time.LocalDateTime dateTime) {
+        return dateTime == null ? null : Timestamp.valueOf(dateTime);
     }
         
 
@@ -195,14 +197,14 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public void bookRoom(User user){
-        String sql = "UPDATE users SET bill = ? , roomAlloted = ?, roomBookingStart = ?, roomBookingEnd = ?, WHERE adhaar = ?";
+        String sql = "UPDATE users SET bill = ? , roomAlloted = ?, roomBookingStart = ?, roomBookingEnd = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setFloat(1, user.getBill());
                 ps.setInt(2, user.getRoomAlloted());
                 ps.setTimestamp(3, Timestamp.valueOf(user.getRoomBookingStart()));
-                ps.setTimestamp(4, Timestamp.valueOf(user.getRoomBookingStart()));
+                ps.setTimestamp(4, Timestamp.valueOf(user.getRoomBookingEnd()));
                 ps.setString(5, user.getAdhaar());
 
                 int rows = ps.executeUpdate();
@@ -220,15 +222,38 @@ public class UserDaoImpl implements UserDAO{
     }
 
     @Override
+    public void orderfood(User user){
+        String sql = " UPDATE users SET bill = ? WHERE adhaar = ?";
+
+        try(Connection con = DatabaseConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)){
+                ps.setFloat(1,  user.getBill());
+                ps.setString(2, user.getAdhaar());
+
+                int rows = ps.executeUpdate();
+
+                if(rows > 0){
+                    System.out.println("Food ordered");
+                }
+                else{
+                    System.out.println("Sorry try again");
+                }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void organiseParty(User user) {
-        String sql = "UPDATE users SET bill = ? , partyHallAlloted = ?, partyHallBookingStart = ?, partyHallBookingEnd = ?, WHERE adhaar = ?";
+        String sql = "UPDATE users SET bill = ?, partyHallAlloted = ?, partyHallBookingStart = ?, partyHallBookingEnd = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setFloat(1, user.getBill());
                 ps.setInt(2, user.getPartyHallAlloted());
                 ps.setTimestamp(3, Timestamp.valueOf(user.getPartyHallBookingStart()));
-                ps.setTimestamp(4, Timestamp.valueOf(user.getPartyHallBookingStart()));
+                ps.setTimestamp(4, Timestamp.valueOf(user.getPartyHallBookingEnd()));
                 ps.setString(5, user.getAdhaar());
 
                 int rows = ps.executeUpdate();
@@ -246,14 +271,14 @@ public class UserDaoImpl implements UserDAO{
 
     @Override
     public void bookMeetingHall(User user) {
-        String sql = "UPDATE users SET bill = ?, meetingHallAlloted = ?, meetingHallBookingStart = ?, meetingHallBookingEnd = ?, WHERE adhaar = ?";
+        String sql = "UPDATE users SET bill = ?, meetingHallAlloted = ?, meetingHallBookingStart = ?, meetingHallBookingEnd = ? WHERE adhaar = ?";
 
         try(Connection con = DatabaseConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(sql)){
                 ps.setFloat(1, user.getBill());
                 ps.setInt(2, user.getMeetingHallAlloted());
                 ps.setTimestamp(3, Timestamp.valueOf(user.getMeetingHallBookingStart()));
-                ps.setTimestamp(4, Timestamp.valueOf(user.getMeetingHallBookingStart()));
+                ps.setTimestamp(4, Timestamp.valueOf(user.getMeetingHallBookingEnd()));
                 ps.setString(5, user.getAdhaar());
 
                 int rows = ps.executeUpdate();

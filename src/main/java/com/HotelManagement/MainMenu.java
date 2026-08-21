@@ -156,7 +156,7 @@ class MainMenu {
                 case 1 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
-                         if(verify.userDAO.getUserByNameAndPassword(username, password).getRoomAlloted()>0){
+                         if(verify.isUserExist(username, password) && verify.userDAO.getUserByNameAndPassword(username, password).getRoomAlloted()>0){
                             System.out.println("You Already booked Room Please Select Different User");
                             return;
                          }
@@ -210,7 +210,7 @@ class MainMenu {
                 case 3 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
-                         if(verify.userDAO.getUserByNameAndPassword(username, password).getPartyHallAlloted()>0){
+                         if(verify.isUserExist(username, password) && verify.userDAO.getUserByNameAndPassword(username, password).getPartyHallAlloted()>0){
                             System.out.println("You Already booked Party Hall Please Select Different User");
                             return;
                          }
@@ -258,7 +258,7 @@ class MainMenu {
                 case 5 : System.out.print("Enter Password : ");
                          password = sc.nextLine();
 
-                         if(verify.userDAO.getUserByNameAndPassword(username, password).getMeetingHallAlloted()>0){
+                         if(verify.isUserExist(username, password) && verify.userDAO.getUserByNameAndPassword(username, password).getMeetingHallAlloted()>0){
                             System.out.println("You Already booked Meeting Hall Please Select Different User");
                             return;
                          }

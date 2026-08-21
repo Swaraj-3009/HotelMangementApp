@@ -11,6 +11,7 @@ public interface UserDAO {
     void updateUserProfile(User user);
     void deleteUser(User user);
     void bookRoom(User user);
+    void orderfood(User user);
     void organiseParty(User user);
     void bookMeetingHall(User user);
     void takeSwimmingPass(User user);

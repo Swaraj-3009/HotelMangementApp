@@ -32,14 +32,14 @@ class Verify {
     }
 
     boolean isRoomAvailabale(int totalRoomToBeBooked){
-        return (100 - hotelDAO.getHotelData().getTotalBookedRoom()) >= totalRoomToBeBooked;
+        return totalRoomToBeBooked > 0 && (100 - hotelDAO.getHotelData().getTotalBookedRoom()) >= totalRoomToBeBooked;
     }
 
     boolean isMeetingHallAvailable(int totalMeetingHallToBeBooked){
-        return(10 - hotelDAO.getHotelData().getTotalBookedMeetingHall() >= totalMeetingHallToBeBooked);
+        return totalMeetingHallToBeBooked > 0 && (10 - hotelDAO.getHotelData().getTotalBookedMeetingHall() >= totalMeetingHallToBeBooked);
     }
 
     boolean isPartyHallAvailable(int totalPartyHallToBeBooked){
-        return(3 - hotelDAO.getHotelData().getTotalBookedPartyHall() >= totalPartyHallToBeBooked);
+        return totalPartyHallToBeBooked > 0 && (3 - hotelDAO.getHotelData().getTotalBookedPartyHall() >= totalPartyHallToBeBooked);
     }
 }
