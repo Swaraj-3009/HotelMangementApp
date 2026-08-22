@@ -1,8 +1,8 @@
 package com.HotelManagement;
 
 import java.util.*;
-
 import com.Scheduler.BookingExpirationScheduler;
+import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 
 //login as Manager or User
 public class App {
@@ -90,6 +90,8 @@ public class App {
                     break;
 
                 case 3 : sc.close();
+                         scheduler.stop();
+                         AbandonedConnectionCleanupThread.checkedShutdown();
                         return;
 
                 default : System.out.println("\n Please enter valid details! \n");

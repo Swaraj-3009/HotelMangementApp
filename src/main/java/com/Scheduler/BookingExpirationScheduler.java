@@ -22,4 +22,8 @@ public class BookingExpirationScheduler {
 
         }, 0, 1, TimeUnit.MINUTES);
     }
+
+    public void stop() {
+        scheduler.shutdownNow();
+    }
 }
